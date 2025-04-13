@@ -1,0 +1,38 @@
+
+function getAverage(arr) {
+    const sum = arr.reduce((a, b) => a + b, 0);
+    return sum / arr.length;
+}
+
+function mostProductiveEmployee(data) {
+    let maxAvg = -Infinity;
+    let topEmployee = "";
+
+    data.forEach(emp => {
+        const avg = getAverage(emp.completions);
+        if (avg > maxAvg) {
+            maxAvg = avg;
+            topEmployee = emp.name;
+        }
+    });
+
+    return { name: topEmployee, avg: maxAvg.toFixed(2) };
+}
+
+function companyAverage(data) {
+    let total = 0;
+    let count = 0;
+
+    data.forEach(emp => {
+        total += emp.completions.reduce((a, b) => a + b, 0);
+        count += emp.completions.length;
+    });
+
+    return (total / count).toFixed(2);
+}
+
+function underperformers(data) {
+    return data
+        .filter(emp => getAverage(emp.completions) < 3)
+        .map(emp => emp.name);
+}
